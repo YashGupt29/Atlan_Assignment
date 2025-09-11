@@ -5,35 +5,42 @@ import { Plus } from "lucide-react";
 import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopover } from "@/components/form/form-popover";
 import { Logo } from "@/components/ui/logo";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const Navbar = () => {
+  const isMdScreen = useMediaQuery("(min-width: 768px)");
+
   return (
-    <nav className="fixed z-50 top-0 w-full h-14 border-b shadow-sm bg-white flex items-center">
-      <MobileSidebar />
+    <nav className="fixed z-50 top-0 w-full h-14 border-b shadow-sm bg-white flex items-center p-4">
+      {!isMdScreen && <MobileSidebar />}
       <div className="flex items-center gap-x-4">
-        <div className="hidden md:flex">
-          <Logo />
-        </div>
+        {isMdScreen && (
+          <div className="flex">
+            <Logo />
+          </div>
+        )}
+        {isMdScreen && (
+          <FormPopover align="start" side="bottom" sideOffset={18}>
+            <Button
+              size="sm"
+              className="bg-black"
+            >
+              Create
+            </Button>
+          </FormPopover>
+        )}
 
-        <FormPopover align="start" side="bottom" sideOffset={18}>
-          <Button
-            size="sm"
-            variant="primary"
-            className="rounded-sm hidden md:block h-auto py-1.5 px-2"
-          >
-            Create
-          </Button>
-        </FormPopover>
-
-        <FormPopover>
-          <Button
-            size="sm"
-            variant="primary"
-            className="rounded-sm block md:hidden"
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-        </FormPopover>
+        {!isMdScreen && (
+          <FormPopover>
+            <Button
+              size="sm"
+              variant="primary"
+              className="rounded-sm"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </FormPopover>
+        )}
       </div>
 
       <div className="ml-auto flex items-center gap-x-2">
