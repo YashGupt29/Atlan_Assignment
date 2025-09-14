@@ -1,4 +1,3 @@
-"use client";
 import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,26 +8,9 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { MoreHorizontal, X } from "lucide-react";
-import { toast } from "sonner";
 
-const ListOptions = ({ data, onAddCard, onDeleteList, onCopyList }) => {
+const ListOptions = ({  onAddCard }) => {
   const closeRef = useRef(null);
-
-  const handleDelete = () => {
-    if (onDeleteList) {
-      onDeleteList(data);
-    }
-    toast.success(`List "${data.title}" was successfully deleted`);
-    closeRef.current?.click();
-  };
-
-  const handleCopy = () => {
-    if (onCopyList) {
-      onCopyList(data);
-    }
-    toast.success(`List "${data.title}" was successfully copied`);
-    closeRef.current?.click();
-  };
 
   return (
     <Popover>
@@ -51,33 +33,12 @@ const ListOptions = ({ data, onAddCard, onDeleteList, onCopyList }) => {
           </Button>
         </PopoverClose>
 
-        {/* Add Card */}
         <Button
           onClick={onAddCard}
           className="rounded-none w-full h-auto p-2 px-5 font-normal text-sm justify-start"
           variant="ghost"
         >
           Add card...
-        </Button>
-
-        {/* Copy List */}
-        <Button
-          onClick={handleCopy}
-          className="rounded-none w-full h-auto p-2 px-5 font-normal text-sm justify-start"
-          variant="ghost"
-        >
-          Copy list..
-        </Button>
-
-        <Separator />
-
-        {/* Delete List */}
-        <Button
-          onClick={handleDelete}
-          className="rounded-none w-full h-auto p-2 px-5 font-normal text-sm justify-start"
-          variant="ghost"
-        >
-          Delete this list
         </Button>
       </PopoverContent>
     </Popover>

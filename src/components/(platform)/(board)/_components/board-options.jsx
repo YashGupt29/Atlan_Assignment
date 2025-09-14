@@ -8,17 +8,22 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { MoreHorizontal, X } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { deleteBoard } from "@/feature/slices/boardSlice";
+import { useNavigate } from "react-router";
 
-const BoardOptions = ({ id }) => {
+const BoardOptions = ({ id, organizationId }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch=useDispatch();
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     setIsLoading(true);
-    console.log("Deleting board with id:", id);
+    navigate(`/organization/${organizationId}`);
     setTimeout(() => {
+      dispatch(deleteBoard({ boardId: id }));
       setIsLoading(false);
-      alert(`Board ${id} deleted!`); // replace with Redux or local state later
-    }, 800);
+    }, 500);
   };
 
   return (

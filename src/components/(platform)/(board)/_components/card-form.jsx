@@ -43,7 +43,8 @@ const CardForm = forwardRef(
       const newCard = {
         id: crypto.randomUUID(),
         title,
-        order: newOrder,    
+        order: newOrder,
+        boardId,    
         listId,
         description: "",
         createdAt: new Date().toISOString(),

@@ -6,8 +6,6 @@ import { Header } from "./card-header";
 import { Description } from "./description";
 import { DeleteAction } from "./action";
 
-// import { Actions } from "./actions";
-// import { Activity } from "./activity";
 
 const CardModal = ({ boardId }) => {
   const id = useCardModal((state) => state.id);
@@ -22,9 +20,6 @@ const CardModal = ({ boardId }) => {
     }
     return null;
   });
-  // const auditLogData = useSelector((state) => 
-  //   state.auditLogs?.byCardId?.[id] || []
-  // );
 
   if (!cardData) {
     return null;

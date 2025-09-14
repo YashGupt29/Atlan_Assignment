@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useDispatch } from 'react-redux';
 import { addBoard } from '@/feature/slices/boardSlice';
 import { initializeBoardLists } from "@/feature/slices/listSlice";
+import { useParams } from "react-router-dom";
 
 export const FormPopover = ({
   children,
@@ -25,6 +26,7 @@ export const FormPopover = ({
   const closeRef = useRef(null);
   const dispatch = useDispatch();
   const [selectedDateRange, setSelectedDateRange] = useState();
+  const { id: organizationId } = useParams();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -48,6 +50,7 @@ export const FormPopover = ({
       imageFullUrl,
       startDate: selectedDateRange.from.toISOString(),
       endDate: selectedDateRange.to.toISOString(),
+      organizationId,
     };
     dispatch(addBoard(newBoard));
     dispatch(initializeBoardLists({ boardId: newBoard.id }))

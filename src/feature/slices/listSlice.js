@@ -58,7 +58,9 @@ export const listSlice = createSlice({
     updateCardTitle: (state, action) => {
       const { boardId, listId, cardId, title } = action.payload;
       const list = state.byBoardId[boardId]?.find((l) => l.id === listId);
-      if (!list) return;
+      if (!list) { 
+        return;
+      };
       const card = list.cards.find((c) => c.id === cardId);
       if (card) card.title = title;
     },   

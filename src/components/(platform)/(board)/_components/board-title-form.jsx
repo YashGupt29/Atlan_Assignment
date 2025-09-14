@@ -1,13 +1,14 @@
-"use client";
 
 import React, { useRef, useState } from "react";
-import { Button } from "@/components/ui/button"; // shadcn
+import { Button } from "@/components/ui/button"; 
 import { FormInput } from "@/components/form/form-input";
+import { useDispatch } from "react-redux";
+import { updateBoard } from "@/feature/slices/boardSlice";
 
 const BoardTitleForm = ({ data }) => {
   const formRef = useRef(null);
   const inputRef = useRef(null);
-
+  const dispatch=useDispatch();
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -27,7 +28,7 @@ const BoardTitleForm = ({ data }) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const newTitle = formData.get("title");
-    console.log("Updated board title:", newTitle);
+    dispatch(updateBoard({ boardId: data.id, title: newTitle }));
     setTitle(newTitle);
     disableEditing();
   };
