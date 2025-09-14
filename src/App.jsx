@@ -38,6 +38,10 @@ const router = createBrowserRouter([
         element: <SignUpPage />,
       },
       {
+        path: '/sign-in/sso-callback',
+        element: <SignInPage />,
+      },
+      {
         path: '/organization',
         element: <CreateOrganizationPage />,
       },
