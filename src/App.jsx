@@ -1,5 +1,5 @@
 import './App.css'
-import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, RedirectToSignIn, SignOutButton } from '@clerk/clerk-react';
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import Home from './components/homePage/home'
 import HomeLayout from './components/homePage/layout'
@@ -37,6 +37,14 @@ const router = createBrowserRouter([
         path: '/organization',
         element: <CreateOrganizationPage />,
       },
+      {
+        path:"/login#/sso-callback",
+        element:<SignInPage/>
+      },
+      {
+        path:"/signup#/sso-callback",
+        element:<SignUpPage/>
+      }
     ]
   },
   {
