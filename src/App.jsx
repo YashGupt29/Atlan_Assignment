@@ -26,20 +26,12 @@ const router = createBrowserRouter([
     element: <ClerkLayout />,
     children: [
       {
-        path: '/sign-in',
+        path: 'login',
         element: <SignInPage />,
       },
       {
-        path: '/sign-up',
+        path: 'signup',
         element: <SignUpPage />,
-      },
-      {
-        path: '/sign-up/sso-callback',
-        element: <SignUpPage />,
-      },
-      {
-        path: '/sign-in/sso-callback',
-        element: <SignInPage />,
       },
       {
         path: '/organization',

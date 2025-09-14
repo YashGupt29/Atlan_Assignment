@@ -30,7 +30,7 @@ function Home() {
        Browse activities, create a personalized schedule, and share your plans with friends. Turn your free time into memorable experiences with Weekendly.
       </div>
       <Button className="mt-6 bg-black text-white hover:bg-white hover:text-black" variant="destructive" size="lg" >
-        <Link to="/sign-up">Plan Your Weekend for Free</Link>
+        <Link to="/login">Plan Your Weekend for Free</Link>
       </Button>
     </div>
   );
