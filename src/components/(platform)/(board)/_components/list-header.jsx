@@ -1,15 +1,73 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import ListOptions from "./list-options";
 import { useDispatch } from "react-redux";
 import { useEventListener } from "@/hooks/useEventListener";
-import {  updateListTitle } from "@/feature/slices/listSlice";
-const ListHeader = ({ data, onAddCard }) => {
+import {  updateListTitle, addCard } from "@/feature/slices/listSlice";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const activitiesThemes = {
+  Adventure: ["Hiking", "Riding", "Camping"],
+  Party: ["Clubbing", "Karaoke", "House Party"],
+  Chill: ["Reading", "Movie", "Gaming"],
+};
+
+const ListHeader = ({ data, onAddCard, boardId }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState("Adventure");
   const formRef = useRef(null);
   const inputRef = useRef(null);
+  const isActivities = data.title === "Activities";
+  const initializedRef = useRef(false);
+
+
+  const handleThemeChange = (selectedThemeValue) => {
+    setSelectedTheme(selectedThemeValue);
+    const activities = activitiesThemes[selectedThemeValue];
+
+    if (activities && activities.length > 0) {
+      activities.forEach((activity) => {
+        const newCard = {
+          id: crypto.randomUUID(),
+          title: activity,
+          order: data.cards.length,
+          listId: data.id,
+          boardId: boardId,
+        };
+        dispatch(addCard({ boardId: boardId, listId: data.id, card: newCard }));
+        toast.success(`Added "${activity}" to ${data.title}`);
+      });
+    }
+  };
+  useEffect(() => {
+    if (!isActivities) return;
+    if (!initializedRef.current && data.cards.length === 0) {
+      const activities = activitiesThemes["Adventure"];
+      activities.forEach((activity, index) => {
+        const newCard = {
+          id: crypto.randomUUID(),
+          title: activity,
+          order: index,
+          listId: data.id,
+          boardId: boardId,
+        };
+        dispatch(addCard({ boardId, listId: data.id, card: newCard }));
+      });
+      initializedRef.current = true; 
+    }
+  }, []);
+  
+  
 
   const enableEditing = () => {
     setIsEditing(true);
@@ -68,6 +126,22 @@ const ListHeader = ({ data, onAddCard }) => {
         >
           {data.title}
         </div>
+      )}
+      {isActivities && (
+        <Select onValueChange={handleThemeChange} defaultValue={selectedTheme}>
+          <SelectTrigger className="w-[180px] bg-white">
+            <SelectValue placeholder="Select a theme" />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(activitiesThemes).map(([theme]) => (
+              <SelectGroup key={theme}>
+                <SelectItem key={theme} value={theme}>
+                  {theme}
+                </SelectItem>
+              </SelectGroup>
+            ))}
+          </SelectContent>
+        </Select>
       )}
       <ListOptions
         onAddCard={onAddCard}

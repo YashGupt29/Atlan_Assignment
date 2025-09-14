@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { moveCardToList, updateCardOrder, updateListOrder } from "@/feature/slices/listSlice";
 import ListForm from "./list-form";
 import ListItem from "./list-item";
+import { toast } from "sonner";
 
 function reorder(list, startIndex, endIndex) {
   const result = Array.from(list);
@@ -23,7 +24,9 @@ const ListContainer = ({ data, boardId }) => {
 
   const onDragEnd = (result) => {
     const { destination, source, type } = result;
+    console.log("Drag result:", result);
     if (!destination) {
+      console.log("Dropped outside any droppable");
       return;
     };
 
@@ -37,6 +40,11 @@ const ListContainer = ({ data, boardId }) => {
 
     // moving a list
     if (type === "list") {
+      const draggedList = orderedData[source.index];
+    if (draggedList.title === "Activities") {
+          toast.error("The Activities list cannot be moved!");
+          return;
+    }
       const items = reorder(orderedData, source.index, destination.index).map(
         (item, index) => ({ ...item, order: index })
       );
@@ -46,6 +54,7 @@ const ListContainer = ({ data, boardId }) => {
 
     // moving a card
     if (type === "card") {
+      console.log("Card move detected:", { source, destination });
       let newOrderedData = orderedData.map(list => ({
         ...list,
         cards: [...list.cards],

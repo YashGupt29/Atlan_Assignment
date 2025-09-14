@@ -14,6 +14,7 @@ import { DatePicker } from "./form-date-picker";
 import { toast } from "sonner";
 import { useDispatch } from 'react-redux';
 import { addBoard } from '@/feature/slices/boardSlice';
+import { initializeBoardLists } from "@/feature/slices/listSlice";
 
 export const FormPopover = ({
   children,
@@ -30,7 +31,6 @@ export const FormPopover = ({
     const formData = new FormData(event.target);
     const title = formData.get("title");
     const image = formData.get("image");
-    console.log("image",image);
 
     if (!title || !image || !selectedDateRange?.from || !selectedDateRange?.to) {
       toast.error("Please fill all fields and select a date range.");
@@ -50,6 +50,7 @@ export const FormPopover = ({
       endDate: selectedDateRange.to.toISOString(),
     };
     dispatch(addBoard(newBoard));
+    dispatch(initializeBoardLists({ boardId: newBoard.id }))
     toast.success("Board created!");
     closeRef.current?.click();
   };

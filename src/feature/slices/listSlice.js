@@ -8,6 +8,37 @@ export const listSlice = createSlice({
   name: "list",
   initialState,
   reducers: {
+    initializeBoardLists: (state, action) => {
+      const { boardId } = action.payload;
+
+      if (!state.byBoardId[boardId]) {
+        const defaultLists = [
+          {
+            id: crypto.randomUUID(),
+            title: "Activities",
+            order: 0,
+            boardId,
+            cards: [], 
+          },
+          {
+            id: crypto.randomUUID(),
+            title: "Saturday",
+            order: 1,
+            boardId,
+            cards: [],
+          },
+          {
+            id: crypto.randomUUID(),
+            title: "Sunday",
+            order: 2,
+            boardId,
+            cards: [],
+          },
+        ];
+        state.byBoardId[boardId] = defaultLists;
+      }
+    },
+
     addList: (state, action) => {
       const list = action.payload; // {id, title, order, boardId, cards: []}
       if (!state.byBoardId[list.boardId]) {
@@ -86,6 +117,7 @@ export const {
   addCard,
   updateCardOrder,
   moveCardToList,
+  initializeBoardLists
 } = listSlice.actions;
 
 export default listSlice.reducer;
