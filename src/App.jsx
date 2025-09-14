@@ -9,6 +9,9 @@ import CreateOrganizationPage from './components/(platform)/(clerk)/(select-org)
 import SignUpPage from './components/(platform)/(clerk)/(sign-up)/SignupPage';
 import ClerkLayout from './components/(platform)/(clerk)/ClerkLayout';
 import DashboardPage from './components/(platform)/(Dashboard)/dashboardPage';
+import { Toaster } from 'sonner';
+import BoardIdLayout from './components/(platform)/(board)/boardLayout';
+import BoardIdPage from './components/(platform)/(board)/boardPage';
 
 
 const router = createBrowserRouter([
@@ -56,11 +59,29 @@ const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
     ],
   },
+  {
+    path:'/board/:boardId',
+    element: (
+      <>
+        <SignedIn>
+          <BoardIdLayout />
+        </SignedIn>
+        <SignedOut>
+          <RedirectToSignIn />
+        </SignedOut>
+      </>
+    ),
+    children:[
+      {index:true,element:<BoardIdPage/>}
+    ]
+  }
 ]);
+
 function App() {
 
   return (
     <>
+     <Toaster/>
      <RouterProvider  router={router}/>
     </>
   )

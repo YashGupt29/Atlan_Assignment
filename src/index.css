@@ -1,25 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
-
-html, body, #root {
-  height: 100%;
-  margin: 0;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("./assets/fonts/Poppins/Poppins-SemiBold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-.font-poppins-bold {
-  font-family: "Poppins", sans-serif;
-}
-
-
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -127,6 +108,21 @@ html, body, #root {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/Poppins/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-poppins-bold {
+  font-family: "Poppins", sans-serif;
 }
 
 @layer base {

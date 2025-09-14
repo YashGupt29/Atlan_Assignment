@@ -7,7 +7,7 @@ import BoardList from "./board-list";
 export default function OrganizationIdPage() {
 
   return (
-    <div className="w-[70%] mt-[100px]">
+    <div className="w-[70%] mt-[100px] ml-[-200px]">
       <Info/>
       <Separator className="my-4" />
       <div className="px-2 md:px-4">

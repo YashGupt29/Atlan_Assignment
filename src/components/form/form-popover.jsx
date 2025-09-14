@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -10,8 +10,10 @@ import {
 import { FormInput } from "./form-input";
 import { FormSubmit } from "./form-button";
 import { FormPicker } from "./form-picker";
+import { DatePicker } from "./form-date-picker";
 import { toast } from "sonner";
-import { useProModal } from "@/hooks/use-pro-modal";
+import { useDispatch } from 'react-redux';
+import { addBoard } from '@/feature/slices/boardSlice';
 
 export const FormPopover = ({
   children,
@@ -19,15 +21,37 @@ export const FormPopover = ({
   align,
   sideOffset = 0,
 }) => {
-  const proModal = useProModal();
   const closeRef = useRef(null);
+  const dispatch = useDispatch();
+  const [selectedDateRange, setSelectedDateRange] = useState();
 
-  
   const onSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const title = formData.get("title");
     const image = formData.get("image");
+    console.log("image",image);
+
+    if (!title || !image || !selectedDateRange?.from || !selectedDateRange?.to) {
+      toast.error("Please fill all fields and select a date range.");
+      console.log("Please fill all fields and select a date range.")
+      return;
+    }
+
+    const imageThumbUrl = image.split('|')[1];
+    const imageFullUrl = image.split('|')[2];
+
+    const newBoard = {
+      id: Date.now().toString(),
+      title,
+      imageThumbUrl,
+      imageFullUrl,
+      startDate: selectedDateRange.from.toISOString(),
+      endDate: selectedDateRange.to.toISOString(),
+    };
+    dispatch(addBoard(newBoard));
+    toast.success("Board created!");
+    closeRef.current?.click();
   };
 
   return (
@@ -59,8 +83,9 @@ export const FormPopover = ({
               label="Board title"
               type="text"
             />
+             <DatePicker onChange={setSelectedDateRange} />
           </div>
-          <FormSubmit className="w-full">Create</FormSubmit>
+          <FormSubmit className="w-full bg-black text-white">Create</FormSubmit>
         </form>
       </PopoverContent>
     </Popover>
