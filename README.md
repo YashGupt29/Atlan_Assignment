@@ -54,6 +54,9 @@ The application follows a component-based architecture typical of React applicat
 -   **Tailwind CSS and Radix UI**: Combining Tailwind for styling with Radix UI for accessible components provides a powerful and flexible styling solution.
     -   **Tradeoff**: Radix UI components are unstyled, requiring manual styling with Tailwind classes. This offers maximum control over the visual appearance but can result in verbose HTML if not carefully managed through custom components.
 
+-   **Redux State Complexity (Potential)**: While Redux Toolkit simplifies state management, the application currently handles a significant amount of UI state, particularly for board and list items, directly within Redux.
+    -   **Tradeoff**: This centralizes state and allows for easy persistence, but as the application grows, managing a large number of interconnected states and ensuring optimal performance (e.g., preventing unnecessary re-renders) can become challenging. It can lead to a "global state" anti-pattern if not carefully designed, potentially increasing bundle size and initial load times for highly complex states.
+
 ## Redux State Management
 
 The application uses Redux Toolkit to manage its global state, with a focus on boards and lists. The state is structured into slices, making it modular and maintainable.
@@ -116,3 +119,24 @@ The `listSlice` manages lists and their associated cards, organized by `boardId`
     -   `removeCard(state, action)`: Removes a card from a list.
     -   `updateCardOrder(state, action)`: Updates the order of cards within a list.
     -   `moveCardToList(state, action)`: Moves a card from one list to another within the same board.
+
+## Engineering Tradeoffs
+
+Decisions were made to balance rapid development, performance, and maintainability.
+
+-   **Client-Side Data Storage vs. Server-Side Persistence**: The current implementation primarily uses client-side Redux persistence (with `redux-persist`) for managing board and list data.
+    -   **Tradeoff**: This approach enables offline capabilities and reduces server load, offering a fast and responsive user experience. However, it limits multi-user collaboration features and cross-device synchronization, as data is local to the user's browser. A server-side solution would be required for shared data and real-time updates.
+-   **Third-Party Authentication (Clerk) vs. Custom Implementation**: Choosing Clerk for authentication drastically reduces the development effort required for secure user management.
+    -   **Tradeoff**: While providing a robust and scalable authentication system, it introduces a dependency on an external service. This means adhering to Clerk's API and conventions, and potential vendor lock-in, although the benefits in terms of security and feature completeness generally outweigh these concerns for many projects.
+-   **Unstyled UI Components (Radix UI) vs. Pre-styled Libraries**: Using Radix UI provides highly accessible and unstyled primitives.
+    -   **Tradeoff**: This offers maximum flexibility in styling and ensures adherence to design system guidelines, but requires more manual effort in applying styles using Tailwind CSS compared to using a heavily opinionated, pre-styled component library.
+
+## Scalable Aspects
+
+Several architectural choices contribute to the application's scalability and future extensibility:
+
+-   **Modular Component Architecture**: The application is built with a clear separation of UI components, making them reusable, testable, and easier to maintain. This modularity allows new features to be added without significantly impacting existing parts of the codebase.
+-   **Redux Toolkit for State Management**: Redux Toolkit promotes organized and efficient state management. Its use of "slices" for different feature domains (`boardSlice`, `listSlice`) helps prevent state logic from becoming monolithic, making it easier to scale the application's state as new features are introduced. The predictable state container simplifies debugging and allows for powerful middleware.
+-   **Clerk for Authentication**: Offloading authentication and user management to Clerk provides a highly scalable and secure solution. Clerk handles user databases, sessions, and security best practices, allowing the application to focus on its core features without needing to build and maintain a complex authentication backend.
+-   **Utility-First Styling with Tailwind CSS**: Tailwind's utility-first approach encourages consistent design language and promotes reuse of styles. When combined with component-based development, it ensures that styling remains manageable and performant even as the application's UI grows in complexity.
+-   **Client-Side Persistence (Tradeoff for Scalability)**: While a tradeoff for real-time collaboration, client-side persistence with `redux-persist` is highly scalable for single-user scenarios. It minimizes server roundtrips for data retrieval, leading to a faster and more fluid user experience that scales well with the number of individual users, as each user's data load is handled by their local browser.
