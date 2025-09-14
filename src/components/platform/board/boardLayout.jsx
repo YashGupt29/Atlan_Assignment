@@ -14,7 +14,7 @@ const BoardIdLayout = () => {
   );
   
   if (!board) {
-    navigate("/not-found"); 
+    navigate("/"); 
     return null;
   }
   return (

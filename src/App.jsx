@@ -12,12 +12,13 @@ import DashboardPage from './components/platform/Dashboard/dashboardPage';
 import { Toaster } from 'sonner';
 import BoardIdLayout from './components/platform/board/boardLayout';
 import BoardIdPage from './components/platform/board/boardPage';
+import RedirectWrapper from './hooks/useAuthRedirect';
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomeLayout />,
+    element: <RedirectWrapper><HomeLayout /></RedirectWrapper>,
     children: [
       { index: true, element: <Home /> },
     ],
@@ -78,11 +79,14 @@ const router = createBrowserRouter([
     children:[
       {index:true,element:<BoardIdPage/>}
     ]
-  }
+  },
+  {
+    path: '*',
+    element: <RedirectWrapper><div>Redirecting...</div></RedirectWrapper>,
+  },
 ]);
 
 function App() {
-
   return (
     <>
      <Toaster/>
