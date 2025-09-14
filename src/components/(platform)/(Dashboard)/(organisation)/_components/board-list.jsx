@@ -21,7 +21,7 @@ export default function BoardList() {
         {boards.map((board) => (
           <Link
             key={board.id}
-            to={`/board/${board.id}`}
+            to={`/plan/${board.id}`}
             className="group relative aspect-video bg-no-repeat bg-center
             bg-cover bg-sky-700 rounded-sm h-[150px] w-[250px] p-2 overflow-hidden"
             style={{ backgroundImage: `url(${board.imageThumbUrl})` }}

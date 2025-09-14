@@ -56,7 +56,7 @@ export function DatePicker({
               format(date.from, "LLL dd, y")
             )
           ) : (
-            <span>Pick a date range</span>
+            <span>Choose a Weekend</span>
           )}
         </Button>
       </PopoverTrigger>

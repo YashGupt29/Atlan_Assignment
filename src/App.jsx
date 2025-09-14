@@ -34,12 +34,12 @@ const router = createBrowserRouter([
         element: <SignUpPage />,
       },
       {
+        path: '/sign-up/sso-callback',
+        element: <SignUpPage />,
+      },
+      {
         path: '/organization',
-        element: (
-          <SignedIn>
-            <CreateOrganizationPage />
-          </SignedIn>
-        ),
+        element: <CreateOrganizationPage />,
       },
     ]
   },
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path:'/board/:boardId',
+    path:'/plan/:boardId',
     element: (
       <>
         <SignedIn>

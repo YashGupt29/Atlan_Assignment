@@ -71,7 +71,7 @@ const CardForm = forwardRef(
           />
           <input hidden id="listId" name="listId" value={listId} />
           <div className="flex items-center gap-x-1">
-            <FormSubmit>Add card</FormSubmit>
+            <FormSubmit>Add Activity</FormSubmit>
             <Button onClick={disableEditing} size="sm" variant="ghost">
               <X className="h-5 w-5" />
             </Button>
@@ -89,7 +89,7 @@ const CardForm = forwardRef(
           variant="ghost"
         >
           <Plus className="h-4 w-4 mr-2" />
-          Add a card
+          Add an Activity
         </Button>
       </div>
     );

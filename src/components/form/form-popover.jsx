@@ -68,7 +68,7 @@ export const FormPopover = ({
         sideOffset={sideOffset}
       >
         <div className="text-sm font-medium text-center text-neutral-600 pb-4">
-          Create Board
+          Create Plan
         </div>
         <PopoverClose ref={closeRef} asChild>
           <Button
@@ -84,7 +84,7 @@ export const FormPopover = ({
             <FormPicker id="image"/>
             <FormInput
               id="title"
-              label="Board title"
+              label="Plan Title"
               type="text"
             />
              <DatePicker onChange={setSelectedDateRange} />
