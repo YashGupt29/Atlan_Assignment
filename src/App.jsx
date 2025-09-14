@@ -37,14 +37,6 @@ const router = createBrowserRouter([
       {
         path: '/organization',
         element: <CreateOrganizationPage />,
-      },
-      {
-        path:"/login#/sso-callback",
-        element:<SignInPage/>
-      },
-      {
-        path:"/signup#/sso-callback",
-        element:<SignUpPage/>
       }
     ]
   },
