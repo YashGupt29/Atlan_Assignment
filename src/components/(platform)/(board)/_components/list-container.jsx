@@ -23,7 +23,9 @@ const ListContainer = ({ data, boardId }) => {
 
   const onDragEnd = (result) => {
     const { destination, source, type } = result;
-    if (!destination) return;
+    if (!destination) {
+      return;
+    };
 
     // dropped in the same place
     if (
@@ -44,7 +46,10 @@ const ListContainer = ({ data, boardId }) => {
 
     // moving a card
     if (type === "card") {
-      let newOrderedData = [...orderedData];
+      let newOrderedData = orderedData.map(list => ({
+        ...list,
+        cards: [...list.cards],
+      }));
       const sourceList = newOrderedData.find(
         (list) => list.id === source.droppableId
       );
@@ -57,39 +62,62 @@ const ListContainer = ({ data, boardId }) => {
       if (!sourceList.cards) sourceList.cards = [];
       if (!destList.cards) destList.cards = [];
 
-      // moving card inside same list
       if (source.droppableId === destination.droppableId) {
         const reorderedCards = reorder(
           sourceList.cards,
           source.index,
           destination.index
-        );
-        reorderedCards.forEach((card, index) => (card.order = index));
+        ).map((card, index) => ({
+          ...card,
+          order: index, 
+        }));
         sourceList.cards = reorderedCards;
         setOrderedData(newOrderedData);
 
         dispatch(updateCardOrder({ boardId, listId: sourceList.id, items: reorderedCards }));
-      } else {
+        
+      }
+      else {
         // moving card to different list
         const [movedCard] = sourceList.cards.splice(source.index, 1);
-        movedCard.listId = destination.droppableId;
-        destList.cards.splice(destination.index, 0, movedCard);
-
-        sourceList.cards.forEach((card, index) => (card.order = index));
-        destList.cards.forEach((card, index) => (card.order = index));
-
+      
+        const updatedCard = { ...movedCard, listId: destination.droppableId };
+      
+        // ensure destList.cards exists
+        if (!destList.cards) destList.cards = [];
+      
+        // insert into destination
+        destList.cards.splice(destination.index, 0, updatedCard);
+      
+        // reorder source + destination
+        sourceList.cards = sourceList.cards.map((card, index) => ({
+          ...card,
+          order: index,
+        }));
+        destList.cards = destList.cards.map((card, index) => ({
+          ...card,
+          order: index,
+        }));
+      
         setOrderedData(newOrderedData);
-
+      
         dispatch(
           moveCardToList({
             boardId,
             sourceListId: sourceList.id,
             destListId: destList.id,
-            cardId: movedCard.id,
+            cardId: updatedCard.id,
             destIndex: destination.index,
           })
         );
-      }
+      
+        console.log("Moved card across lists", {
+          from: sourceList.id,
+          to: destList.id,
+          movedCard: updatedCard,
+          destCards: destList.cards.map(c => ({ id: c.id, order: c.order })),
+        });
+      }      
     }
   };
 
