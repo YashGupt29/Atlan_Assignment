@@ -18,7 +18,7 @@ import RedirectWrapper from './hooks/useAuthRedirect';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RedirectWrapper><HomeLayout /></RedirectWrapper>,
+    element: <HomeLayout />,
     children: [
       { index: true, element: <Home /> },
     ],
