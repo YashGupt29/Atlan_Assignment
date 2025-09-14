@@ -4,8 +4,9 @@ import { useParams, useNavigate, Outlet } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import BoardNavbar from "./_components/board-navbar";
 import Navbar from "../(Dashboard)/_components/navbar";
+import CardModal from "./_components/modals/card-Modal";
 
-const BoardIdLayout = ({ children }) => {
+const BoardIdLayout = () => {
   const { boardId } = useParams();
   const navigate = useNavigate();
   const board = useSelector((state) =>
@@ -29,6 +30,7 @@ const BoardIdLayout = ({ children }) => {
       <div className="absolute bg-black/10 inset-0" />
       <main className="relative pt-28 h-full">
         <Outlet/>
+        <CardModal boardId={boardId}/>
       </main>
     </div>
   );

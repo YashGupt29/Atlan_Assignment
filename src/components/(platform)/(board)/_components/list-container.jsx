@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { useDispatch } from "react-redux";
 
-import { addCard, addCardAtIndex, moveCardToList, updateCardOrder, updateListOrder } from "@/feature/slices/listSlice";
+import { addCardAtIndex, moveCardToList, updateCardOrder, updateListOrder } from "@/feature/slices/listSlice";
 import ListForm from "./list-form";
 import ListItem from "./list-item";
 import { toast } from "sonner";
@@ -28,7 +28,6 @@ const ListContainer = ({ data, boardId }) => {
 
   const onDragEnd = (result) => {
     const { destination, source, type } = result;
-    console.log("Drag result:", result);
     if (!destination) {
       console.log("Dropped outside any droppable");
       return;
@@ -105,6 +104,15 @@ const ListContainer = ({ data, boardId }) => {
       
         if (sourceList.title === "Activities") {
           // Copy card from Activities to destination at correct index
+          const cardToCopy = sourceList.cards[source.index];
+
+          // Check if card with same title already exists
+          const duplicate = destList.cards.find(c => c.title === cardToCopy.title);
+          if (duplicate) {
+            toast.error("Card already exists in this list!");
+            return;
+          }
+
           const newCard = {
             ...sourceList.cards[source.index],
             id: crypto.randomUUID(),
@@ -112,6 +120,7 @@ const ListContainer = ({ data, boardId }) => {
           };
       
           destList.cards.splice(destination.index, 0, newCard);
+          
       
           // Reorder destination cards
           destList.cards = destList.cards.map((c, i) => ({ ...c, order: i }));
@@ -124,8 +133,13 @@ const ListContainer = ({ data, boardId }) => {
             index: destination.index,
           }));
         } else {
-          // Normal move between lists
           const [movedCard] = sourceList.cards.splice(source.index, 1);
+          const duplicate = destList.cards.find(c => c.title === movedCard.title);
+          if (duplicate) {
+            toast.error("Card already exists in this list!");
+            sourceList.cards.splice(source.index, 0, movedCard);
+            return;
+          }
           destList.cards.splice(destination.index, 0, { ...movedCard, listId: destList.id });
       
           // Reorder both lists

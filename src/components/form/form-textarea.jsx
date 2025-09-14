@@ -40,7 +40,7 @@ export const FormTextarea = forwardRef(
             onClick={onClick}
             onKeyDown={onKeyDown}
             className={cn(
-              "resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm",
+              "resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm bg-white",
               className
             )}
             aria-describedby={`${id}-error`}

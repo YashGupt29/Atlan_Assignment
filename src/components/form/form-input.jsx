@@ -17,6 +17,7 @@ export const FormInput = forwardRef(
       className,
       defaultValue = "",
       onBlur,
+      onKeyDown, 
     },
     ref
   ) => {
@@ -31,6 +32,7 @@ export const FormInput = forwardRef(
           <Input
             onBlur={onBlur}
             defaultValue={defaultValue}
+            onKeyDown={onKeyDown} 
             ref={ref}
             required={required}
             name={id}
