@@ -44,21 +44,6 @@ const Navbar = () => {
       </div>
 
       <div className="ml-auto flex items-center gap-x-2">
-        <OrganizationSwitcher
-          hidePersonal
-          afterCreateOrganizationUrl="/organization/:id"
-          afterLeaveOrganizationUrl="/select-org"
-          afterSelectOrganizationUrl="/organization/:id"
-          appearance={{
-            elements: {
-              rootBox: {
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              },
-            },
-          }}
-        />
         <UserButton
           afterSignOutUrl="/"
           appearance={{

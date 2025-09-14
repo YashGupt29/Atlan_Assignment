@@ -29,13 +29,13 @@ const ListItem = ({ data, index }) => {
         <li
           {...provided.draggableProps}
           ref={provided.innerRef}
-          className="shrink-0 h-full w-[372px] select-none ml-10 "
+          className="shrink-0 h-full w-[372px] select-none ml-10"
         >
           <div
             {...provided.dragHandleProps}
             className={cn(
               "w-full rounded-md shadow-md pb-2 min-h-[550px]",
-              isActivities ? "bg-pink-100" : "bg-[#f1f2f4]"
+              isActivities ? "bg-pink-100" : "bg-gray-100"
             )}
           >
             <ListHeader onAddCard={enableEditing} data={data} boardId={data.boardId} />

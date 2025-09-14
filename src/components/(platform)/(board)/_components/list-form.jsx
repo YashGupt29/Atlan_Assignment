@@ -61,7 +61,7 @@ const ListForm = ({ boardId }) => {
         <form
           onSubmit={onSubmit}
           ref={formRef}
-          className="w-full p-3 rounded-md bg-white space-y-4 shadow-md"
+          className="w-full p-3 rounded-md  space-y-4 shadow-md"
         >
           <input
             ref={inputRef}
@@ -83,25 +83,26 @@ const ListForm = ({ boardId }) => {
       </ListWrapper>
     );
   }
+  return null;
 
-  return (
-    <ListWrapper>
-      <button
-         style={{
-          backgroundColor: hover
-            ? "rgba(255, 255, 255, 0.5)" 
-            : "rgba(255, 255, 255, 0.8)",
-        }}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        className="w-full rounded-md  transition p-3 flex items-center font-medium text-sm"
-        onClick={enableEditing}
-      >
-        <Plus className="h-4 w-4 mr-2" />
-        Add a list
-      </button>
-    </ListWrapper>
-  );
+  // return (
+  //   <ListWrapper>
+  //     <button
+  //        style={{
+  //         backgroundColor: hover
+  //           ? "rgba(255, 255, 255, 0.5)" 
+  //           : "rgba(255, 255, 255, 0.8)",
+  //       }}
+  //       onMouseEnter={() => setHover(true)}
+  //       onMouseLeave={() => setHover(false)}
+  //       className="w-full rounded-md  transition p-3 flex items-center font-medium text-sm"
+  //       onClick={enableEditing}
+  //     >
+  //       <Plus className="h-4 w-4 mr-2" />
+  //       Add a list
+  //     </button>
+  //   </ListWrapper>
+  // );
 };
 
 export default ListForm;

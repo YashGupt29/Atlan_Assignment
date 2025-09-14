@@ -172,7 +172,7 @@ const ListContainer = ({ data, boardId }) => {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="flex gap-x-3 h-full list-none p-0 m-0"
+            className="flex gap-x-3 h-full list-none p-0 m-0 justify-center items-center mt-5"
           >
             {orderedData
               .slice()
