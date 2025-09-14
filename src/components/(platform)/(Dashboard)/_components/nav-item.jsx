@@ -14,29 +14,6 @@ export const NavItem = ({ isExpanded, isActive, organization, onExpand }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const routes = [
-    {
-      label: "Boards",
-      icon: <Layout className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}`,
-    },
-    {
-      label: "Activity",
-      icon: <Activity className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}/activity`,
-    },
-    {
-      label: "Settings",
-      icon: <Settings className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}/settings`,
-    },
-    {
-      label: "Billing",
-      icon: <CreditCard className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}/billing`,
-    },
-  ];
-
   const onClick = (href) => {
     navigate(href);
   };
@@ -65,21 +42,19 @@ export const NavItem = ({ isExpanded, isActive, organization, onExpand }) => {
       </AccordionTrigger>
 
       <AccordionContent className="pt-1 text-neutral-700">
-        {routes.map((route) => (
-          <Button
-            key={route.href}
-            size="sm"
-            onClick={() => onClick(route.href)}
-            className={cn(
-              "w-full font-normal justify-start pl-10 mb-1",
-              location.pathname === route.href && "bg-sky-500/10 text-sky-700"
-            )}
-            variant="ghost"
-          >
-            {route.icon}
-            {route.label}
-          </Button>
-        ))}
+        <Button
+          key={organization.id}
+          size="sm"
+          onClick={() => onClick(`/organization/${organization.id}`)}
+          className={cn(
+            "w-full font-normal justify-start pl-10 mb-1",
+            location.pathname === `/organization/${organization.id}` && "bg-sky-500/10 text-sky-700"
+          )}
+          variant="ghost"
+        >
+          <Layout className="h-4 w-4 mr-2" />
+          Boards
+        </Button>
       </AccordionContent>
     </AccordionItem>
   );

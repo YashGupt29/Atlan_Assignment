@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { toast } from "sonner";
 
 export function DatePicker({
   onChange
@@ -17,11 +18,25 @@ export function DatePicker({
   const [date, setDate] = useState();
 
   const handleSelect = (selectedDate) => {
-    setDate(selectedDate);
-    if (onChange) {
-      onChange(selectedDate);
+    const from = selectedDate.from;
+    const to = selectedDate.to || selectedDate.from; 
+    if (!from) return;
+    const fromDay = from.getDay();
+    const toDay = to.getDay();
+    const diffInDays = (to - from) / (1000 * 60 * 60 * 24);
+  
+    const isSingleValidDay = (diffInDays === 0 && (fromDay === 6 || fromDay === 0));
+    
+    const isWeekendRange = (fromDay === 6 && toDay === 0 && diffInDays === 1);
+  
+    if (isSingleValidDay || isWeekendRange) {
+      setDate(selectedDate);
+      if (onChange) onChange(selectedDate);
+    } else {
+      toast.error("Only Saturday, Sunday, or consecutive Saturday → Sunday are allowed in beta version");
     }
   };
+  
 
   return (
     <Popover>
