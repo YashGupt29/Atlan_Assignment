@@ -89,7 +89,14 @@ export const listSlice = createSlice({
           order: index,
         }));
       }
-    },    
+    },   
+    addCardAtIndex: (state, action) => {
+      const { boardId, listId, card, index } = action.payload;
+      const list = state.byBoardId[boardId]?.find(l => l.id === listId);
+      if (!list) return;
+      list.cards.splice(index, 0, card);
+      list.cards = list.cards.map((c, i) => ({ ...c, order: i }));
+    },     
     moveCardToList: (state, action) => {
       const { boardId, sourceListId, destListId, cardId, destIndex } = action.payload;
     
@@ -124,7 +131,8 @@ export const {
   updateCardOrder,
   moveCardToList,
   initializeBoardLists,
-  removeCard
+  removeCard,
+  addCardAtIndex
 } = listSlice.actions;
 
 export default listSlice.reducer;

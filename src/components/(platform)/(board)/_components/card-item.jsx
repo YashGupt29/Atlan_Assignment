@@ -13,7 +13,7 @@ const CardItem = ({ index, data }) => {
           ref={provided.innerRef}
           onClick={()=>cardModal.onOpen(data.id)}
           role="button"
-          className="truncate border-2 border-transparent hover:border-black py-2 px-3 bg-white text-sm rounded-md shadow-sm"
+          className="truncate border-2 border-transparent hover:border-black py-2 px-3 bg-white text-sm rounded-md shadow-sm flex-shrink-0"
         >
           {data.title}
         </div>

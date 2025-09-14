@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { useDispatch } from "react-redux";
 
-import { moveCardToList, updateCardOrder, updateListOrder } from "@/feature/slices/listSlice";
+import { addCard, addCardAtIndex, moveCardToList, updateCardOrder, updateListOrder } from "@/feature/slices/listSlice";
 import ListForm from "./list-form";
 import ListItem from "./list-item";
 import { toast } from "sonner";
@@ -19,8 +19,12 @@ const ListContainer = ({ data, boardId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setOrderedData(data);
+    setOrderedData(data.map(list => ({
+      ...list,
+      cards: [...list.cards],
+    })));
   }, [data]);
+  
 
   const onDragEnd = (result) => {
     const { destination, source, type } = result;
@@ -87,46 +91,63 @@ const ListContainer = ({ data, boardId }) => {
         
       }
       else {
-        // moving card to different list
-        const [movedCard] = sourceList.cards.splice(source.index, 1);
+        const newOrderedData = orderedData.map(list => ({
+          ...list,
+          cards: [...list.cards],
+        }));
       
-        const updatedCard = { ...movedCard, listId: destination.droppableId };
+        const sourceList = newOrderedData.find(list => list.id === source.droppableId);
+        const destList = newOrderedData.find(list => list.id === destination.droppableId);
+        if (!sourceList || !destList) return;
       
-        // ensure destList.cards exists
+        if (!sourceList.cards) sourceList.cards = [];
         if (!destList.cards) destList.cards = [];
       
-        // insert into destination
-        destList.cards.splice(destination.index, 0, updatedCard);
+        if (sourceList.title === "Activities") {
+          // Copy card from Activities to destination at correct index
+          const newCard = {
+            ...sourceList.cards[source.index],
+            id: crypto.randomUUID(),
+            listId: destList.id,
+          };
       
-        // reorder source + destination
-        sourceList.cards = sourceList.cards.map((card, index) => ({
-          ...card,
-          order: index,
-        }));
-        destList.cards = destList.cards.map((card, index) => ({
-          ...card,
-          order: index,
-        }));
+          destList.cards.splice(destination.index, 0, newCard);
       
-        setOrderedData(newOrderedData);
+          // Reorder destination cards
+          destList.cards = destList.cards.map((c, i) => ({ ...c, order: i }));
       
-        dispatch(
-          moveCardToList({
+          // Update Redux
+          dispatch(addCardAtIndex({
+            boardId,
+            listId: destList.id,
+            card: newCard,
+            index: destination.index,
+          }));
+        } else {
+          // Normal move between lists
+          const [movedCard] = sourceList.cards.splice(source.index, 1);
+          destList.cards.splice(destination.index, 0, { ...movedCard, listId: destList.id });
+      
+          // Reorder both lists
+          sourceList.cards = sourceList.cards.map((c, i) => ({ ...c, order: i }));
+          destList.cards = destList.cards.map((c, i) => ({ ...c, order: i }));
+      
+          setOrderedData(newOrderedData);
+      
+          // Update Redux
+          dispatch(moveCardToList({
             boardId,
             sourceListId: sourceList.id,
             destListId: destList.id,
-            cardId: updatedCard.id,
+            cardId: movedCard.id,
             destIndex: destination.index,
-          })
-        );
+          }));
+        }
       
-        console.log("Moved card across lists", {
-          from: sourceList.id,
-          to: destList.id,
-          movedCard: updatedCard,
-          destCards: destList.cards.map(c => ({ id: c.id, order: c.order })),
-        });
-      }      
+        setOrderedData(newOrderedData);
+      }
+      
+            
     }
   };
 

@@ -37,8 +37,6 @@ const CardForm = forwardRef(
       e.preventDefault();
       const formData = new FormData(formRef.current);
       const title = formData.get("title");
-      const listId = formData.get("listId");
-    
       const list = lists.find((l) => l.id === listId);
       const newOrder = list?.cards.length || 0;
     

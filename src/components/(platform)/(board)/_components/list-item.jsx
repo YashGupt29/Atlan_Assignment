@@ -4,6 +4,7 @@ import  CardForm  from "./card-form";
 import { cn } from "@/lib/utils";
 import CardItem from "./card-item";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const ListItem = ({ data, index }) => {
   const textareaRef = useRef(null);
@@ -40,11 +41,12 @@ const ListItem = ({ data, index }) => {
             <ListHeader onAddCard={enableEditing} data={data} boardId={data.boardId} />
             <Droppable droppableId={data.id} type="card">
               {(provided,snapshot) => (
+                <ScrollArea>
                 <ol
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 className={cn(
-                  "mx-5 py-2 px-2 flex flex-col gap-y-2 min-h-[450px] rounded-md",
+                  "mx-5 py-2 px-2 flex flex-col gap-y-2 h-[450px] rounded-md ",
                   data.cards.length > 0 ? "mt-2" : "mt-0"
                 )}
                 style={snapshot.isDraggingOver ? { borderWidth: "2px",borderStyle: "dashed", borderColor: "#d1d5db" } : {}}
@@ -56,14 +58,16 @@ const ListItem = ({ data, index }) => {
                   <CardItem index={index} key={card.id} data={card} />
                   ))
                  ) : (
-                  <div className="flex-1 flex items-center justify-center text-gray-400 text-sm py-2">
+                  <div className="flex items-center justify-center text-gray-400 text-sm py-2">
                   Drop card here
                 </div>
                 )}
                   {provided.placeholder}
                 </ol>
-              )}
-            </Droppable>
+              </ScrollArea>
+
+            )}
+          </Droppable>
             <CardForm
               listId={data.id}
               ref={textareaRef}
