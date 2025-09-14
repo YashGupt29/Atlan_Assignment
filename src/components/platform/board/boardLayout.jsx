@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams, useNavigate, Outlet } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import BoardNavbar from "./_components/board-navbar";
-import Navbar from "../(Dashboard)/_components/navbar";
+import Navbar from "../Dashboard/_components/navbar";
 import CardModal from "./_components/modals/card-Modal";
 
 const BoardIdLayout = () => {

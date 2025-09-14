@@ -1,17 +1,17 @@
 import './App.css'
 import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 import { createBrowserRouter, RouterProvider } from 'react-router'
-import Home from './components/(Home)/Home'
-import HomeLayout from './components/(Home)/Layout'
-import DashboardLayout from './components/(platform)/(Dashboard)/dashboardLayout'
-import SignInPage from './components/(platform)/(clerk)/(sign-in)/SignInPage';
-import CreateOrganizationPage from './components/(platform)/(clerk)/(select-org)/SelectOrganisationPage';
-import SignUpPage from './components/(platform)/(clerk)/(sign-up)/SignupPage';
-import ClerkLayout from './components/(platform)/(clerk)/ClerkLayout';
-import DashboardPage from './components/(platform)/(Dashboard)/dashboardPage';
+import Home from './components/homePage/home'
+import HomeLayout from './components/homePage/layout'
+import DashboardLayout from './components/platform/Dashboard/dashboardLayout'
+import SignInPage from './components/platform/clerk/sign-in/signinPage';
+import CreateOrganizationPage from './components/platform/clerk/select-org/SelectOrganisationPage';
+import SignUpPage from './components/platform/clerk/sign-up/signupPage';
+import ClerkLayout from './components/platform/clerk/clerkLayout';
+import DashboardPage from './components/platform/Dashboard/dashboardPage';
 import { Toaster } from 'sonner';
-import BoardIdLayout from './components/(platform)/(board)/boardLayout';
-import BoardIdPage from './components/(platform)/(board)/boardPage';
+import BoardIdLayout from './components/platform/board/boardLayout';
+import BoardIdPage from './components/platform/board/boardPage';
 
 
 const router = createBrowserRouter([

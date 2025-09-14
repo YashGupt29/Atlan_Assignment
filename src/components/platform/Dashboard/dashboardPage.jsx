@@ -1,7 +1,6 @@
 import React from 'react'
-import { Info } from './(organisation)/_components/info';
-import OrganizationLayout from './(organisation)/organisationLayout';
-import OrganizationIdPage from './(organisation)/_components/organisationId';
+import OrganizationLayout from './organisation/organisationLayout';
+import OrganizationIdPage from './organisation/_components/organisationId';
 
 const DashboardPage = () => {
   return (
