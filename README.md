@@ -140,3 +140,22 @@ Several architectural choices contribute to the application's scalability and fu
 -   **Clerk for Authentication**: Offloading authentication and user management to Clerk provides a highly scalable and secure solution. Clerk handles user databases, sessions, and security best practices, allowing the application to focus on its core features without needing to build and maintain a complex authentication backend.
 -   **Utility-First Styling with Tailwind CSS**: Tailwind's utility-first approach encourages consistent design language and promotes reuse of styles. When combined with component-based development, it ensures that styling remains manageable and performant even as the application's UI grows in complexity.
 -   **Client-Side Persistence (Tradeoff for Scalability)**: While a tradeoff for real-time collaboration, client-side persistence with `redux-persist` is highly scalable for single-user scenarios. It minimizes server roundtrips for data retrieval, leading to a faster and more fluid user experience that scales well with the number of individual users, as each user's data load is handled by their local browser.
+
+## Folder Structure
+
+The project follows a clear and organized folder structure, primarily within the `src` directory, to maintain modularity and ease of navigation.
+
+-   `public/`: Contains static assets like `vite.svg` that are served directly.
+-   `src/`:
+    -   `App.css`, `App.jsx`, `main.jsx`, `index.css`: Core application files and main entry points.
+    -   `assets/`: Stores static assets such as fonts (`fonts/`) and images (`logo.svg`, `react.svg`).
+    -   `components/`: Houses all reusable UI components, organized further by feature or category (e.g., `form/`, `homePage/`, `platform/`, `ui/`).
+        -   `components/form/`: Contains form-related components like `form-input.jsx`, `form-button.jsx`.
+        -   `components/homePage/`: Components specific to the home page, including layout and sub-components.
+        -   `components/platform/`: Larger feature-specific components, such as `board/`, `clerk/`, `Dashboard/`.
+        -   `components/ui/`: Generic, highly reusable UI components (e.g., `button.jsx`, `dialog.jsx`, `input.jsx`) often built using Radix UI and styled with Tailwind CSS.
+    -   `constants/`: Defines application-wide constants, such as `activityTheme.js` and `images.js`.
+    -   `feature/`: Contains Redux-related files, including `slices/` (for `boardSlice.js`, `listSlice.js`) and the main `store.js` configuration.
+    -   `hooks/`: Custom React hooks (e.g., `use-card-modal.js`, `useAuthRedirect.js`) to encapsulate reusable logic.
+    -   `lib/`: Utility functions and external library integrations (e.g., `unsplash.js`, `utils.js`).
+    -   `utils/`: General utility functions, such as `cn.js` for Tailwind class management.
