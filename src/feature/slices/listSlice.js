@@ -72,6 +72,12 @@ export const listSlice = createSlice({
       const list = state.byBoardId[boardId]?.find((l) => l.id === listId);
       if (list) list.cards.push(card);
     },
+    removeCard: (state, action) => {
+      const { boardId, listId, cardId } = action.payload;
+      const list = state.byBoardId[boardId]?.find(l => l.id === listId);
+      if (!list || !list.cards) return;
+      list.cards = list.cards.filter(c => c.id !== cardId);
+    },    
     updateCardOrder: (state, action) => {
       const { boardId, listId, items } = action.payload;
       const list = state.byBoardId[boardId]?.find((l) => l.id === listId);
@@ -117,7 +123,8 @@ export const {
   addCard,
   updateCardOrder,
   moveCardToList,
-  initializeBoardLists
+  initializeBoardLists,
+  removeCard
 } = listSlice.actions;
 
 export default listSlice.reducer;

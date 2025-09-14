@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import ListOptions from "./list-options";
 import { useDispatch } from "react-redux";
 import { useEventListener } from "@/hooks/useEventListener";
-import {  updateListTitle, addCard } from "@/feature/slices/listSlice";
+import {  updateListTitle, addCard, removeCard } from "@/feature/slices/listSlice";
 import {
   Select,
   SelectContent,
@@ -13,12 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { activitiesThemes } from "@/constants/activityTheme";
 
-const activitiesThemes = {
-  Adventure: ["Hiking", "Riding", "Camping"],
-  Party: ["Clubbing", "Karaoke", "House Party"],
-  Chill: ["Reading", "Movie", "Gaming"],
-};
 
 const ListHeader = ({ data, onAddCard, boardId }) => {
   const dispatch = useDispatch();
@@ -36,6 +32,9 @@ const ListHeader = ({ data, onAddCard, boardId }) => {
     const activities = activitiesThemes[selectedThemeValue];
 
     if (activities && activities.length > 0) {
+      data.cards.forEach((card) => {
+        dispatch(removeCard({ boardId, listId: data.id, cardId: card.id }));
+      });
       activities.forEach((activity) => {
         const newCard = {
           id: crypto.randomUUID(),
